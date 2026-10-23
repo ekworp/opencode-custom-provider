@@ -16,7 +16,7 @@
 		"build": "tsc",
 		"format": "biome format --write index.ts README.md README.zh-CN.md package.json tsconfig.json",
 		"check": "biome check index.ts README.md README.zh-CN.md package.json tsconfig.json",
-		"prepack": "pnpm build"
+		"prepack": "tsc"
 	},
 	"files": [
 		"dist",
@@ -34,14 +34,6 @@
 	],
 	"author": "ekworp",
 	"license": "Apache-2.0",
-	"devEngines": {
-		"packageManager": {
-			"name": "pnpm",
-			"version": "12.15.0",
-			"onFail": "download"
-		}
-	},
-	"packageManager": "pnpm@12.15.0",
 	"type": "module",
 	"devDependencies": {
 		"@biomejs/biome": "^2.6.2",
