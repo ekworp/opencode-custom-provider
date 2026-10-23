@@ -1,0 +1,4 @@
+allowBuilds:
+  # Optional native accelerator pulled in through @opencode/plugin.
+  # The JavaScript fallback is sufficient; do not run its install script.
+  msgpackr-extract: false
