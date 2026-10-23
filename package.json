@@ -6,7 +6,7 @@
 	"types": "dist/index.d.ts",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ekworp/opencode-custom-provider.git"
+		"url": "git+https://github.com/ekworp/opencode-custom-provider.git"
 	},
 	"bugs": {
 		"url": "https://github.com/ekworp/opencode-custom-provider/issues"
