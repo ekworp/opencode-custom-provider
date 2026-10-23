@@ -57,10 +57,10 @@ type ProviderSpec = {
 };
 
 type ModelOptions = {
-	/** Context window in tokens. */
-	context?: number;
-	/** Maximum output tokens. */
-	output?: number;
+	/** Context window in tokens, or a unit string such as `1M` or `200K`. */
+	context?: number | string;
+	/** Maximum output tokens, or a unit string such as `128K`. */
+	output?: number | string;
 };
 
 type ReasoningOptions = {
@@ -272,6 +272,23 @@ function resolveSpec(
 	};
 }
 
+/** Convert token counts such as `1M`, `200K`, or `128K` to numbers. */
+function parseTokenCount(value: number | string): number | undefined {
+	if (typeof value === "number")
+		return Number.isFinite(value) && value >= 0 ? value : undefined;
+
+	const match = value.trim().match(/^(\d+(?:\.\d+)?)\s*([kmg])?$/i);
+	if (!match) return undefined;
+
+	const amount = Number(match[1]);
+	const multiplier =
+		{ k: 1_000, m: 1_000_000, g: 1_000_000_000 }[
+			(match[2] ?? "").toLowerCase() as "k" | "m" | "g"
+		] ?? 1;
+	const tokens = amount * multiplier;
+	return Number.isSafeInteger(tokens) ? tokens : undefined;
+}
+
 async function loadModels(spec: ResolvedSpec): Promise<Model.Info[]> {
 	const headers: Record<string, string> = { ...spec.headers };
 	if (spec.apiKey) headers.Authorization = `Bearer ${spec.apiKey}`;
@@ -299,20 +316,32 @@ async function loadModels(spec: ResolvedSpec): Promise<Model.Info[]> {
 
 	return entries.map(({ id, label }) => {
 		const options = spec.models?.[id];
+		const context =
+			options?.context === undefined
+				? undefined
+				: parseTokenCount(options.context);
+		const output =
+			options?.output === undefined
+				? undefined
+				: parseTokenCount(options.output);
+		if (options?.context !== undefined && context === undefined)
+			console.warn(
+				`[custom-provider] invalid context for model ${spec.id}/${id}; expected a token count such as 1000000 or 1M`,
+			);
+		if (options?.output !== undefined && output === undefined)
+			console.warn(
+				`[custom-provider] invalid output for model ${spec.id}/${id}; expected a token count such as 131072 or 128K`,
+			);
 		const defaults = Model.Info.default(providerID, Model.ID.make(id));
 		const model: Model.Info = {
 			...defaults,
 			name: label || id,
-			...(options?.context !== undefined || options?.output !== undefined
+			...(context !== undefined || output !== undefined
 				? {
 						limit: {
 							...defaults.limit,
-							...(options.context !== undefined
-								? { context: options.context }
-								: {}),
-							...(options.output !== undefined
-								? { output: options.output }
-								: {}),
+							...(context !== undefined ? { context } : {}),
+							...(output !== undefined ? { output } : {}),
 						},
 					}
 				: {}),

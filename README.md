@@ -67,8 +67,8 @@ Register it in `~/.config/opencode/opencode.jsonc`:
 				"apiKeyEnv": "EXAMPLE_API_KEY",
 				"models": {
 					"example-model": {
-						"context": 1000000,
-						"output": 131072
+						"context": "1M",
+						"output": "128K"
 					}
 				},
 				"reasoning": {
@@ -190,6 +190,8 @@ If the endpoint returns reasoning in a custom assistant-message field, set
 Use `models` to override metadata for models returned by the current endpoint.
 Only models listed in this object are changed; all other models keep OpenCode's
 default metadata. Supported fields are `context` and `output`, both in tokens.
+They accept numbers or unit strings such as `1M`, `200K`, and `128K` (using
+decimal units: `1M` means 1,000,000 tokens).
 The plugin does not set model status, and ignores unrelated upstream fields such
 as `longContext`.
 

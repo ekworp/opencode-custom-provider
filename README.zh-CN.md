@@ -64,8 +64,8 @@ pnpm build
 				"apiKeyEnv": "EXAMPLE_API_KEY",
 				"models": {
 					"example-model": {
-						"context": 1000000,
-						"output": 131072
+						"context": "1M",
+						"output": "128K"
 					}
 				},
 				"reasoning": {
@@ -185,7 +185,8 @@ opencode models | grep '^example/'
 
 使用 `models` 可以为当前端点返回的模型补充本地元数据。只有列在该对象中的模型
 会被修改，其他模型继续使用 OpenCode 的默认元数据。支持的字段是 `context` 和
-`output`，单位均为 token。插件不会设置模型状态，并会忽略上游返回的其他无关字段，
+`output`，单位均为 token，也可以使用 `"1M"`、`"200K"`、`"128K"` 等写法（采用十进制
+单位，例如 `1M` 表示 1,000,000 个 token）。插件不会设置模型状态，并会忽略上游返回的其他无关字段，
 例如 `longContext`。
 
 ### Provider ID 的推导
