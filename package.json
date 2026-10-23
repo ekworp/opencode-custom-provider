@@ -1,6 +1,6 @@
 {
 	"name": "opencode-custom-provider",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "An OpenCode plugin that discovers models from OpenAI-compatible endpoints.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
