@@ -1,0 +1,54 @@
+{
+	"name": "opencode-custom-provider",
+	"version": "1.0.0",
+	"description": "An OpenCode plugin that discovers models from OpenAI-compatible endpoints.",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ekworp/opencode-custom-provider.git"
+	},
+	"bugs": {
+		"url": "https://github.com/ekworp/opencode-custom-provider/issues"
+	},
+	"homepage": "https://github.com/ekworp/opencode-custom-provider#readme",
+	"scripts": {
+		"build": "tsc",
+		"format": "biome format --write index.ts README.md README.zh-CN.md package.json tsconfig.json",
+		"check": "biome check index.ts README.md README.zh-CN.md package.json tsconfig.json",
+		"prepack": "pnpm build"
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"README.zh-CN.md",
+		"package.json",
+		"LICENSE"
+	],
+	"keywords": [
+		"opencode",
+		"opencode-plugin",
+		"openai-compatible",
+		"provider",
+		"model-discovery"
+	],
+	"author": "ekworp",
+	"license": "Apache-2.0",
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "12.15.0",
+			"onFail": "download"
+		}
+	},
+	"packageManager": "pnpm@12.15.0",
+	"type": "module",
+	"devDependencies": {
+		"@biomejs/biome": "^2.6.2",
+		"@types/node": "^26.6.5",
+		"typescript": "^7.0.2"
+	},
+	"dependencies": {
+		"@opencode/plugin": "2.0.24"
+	}
+}
